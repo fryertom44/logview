@@ -2,7 +2,7 @@
 
 A script for reading a webserver log and outputting the results, sorted by most page views first. 
 
-* Receives a log as argument (webserver.log is provided) e.g.: ./parser.rb webserver.log
+* Receives a log as argument (webserver.log is provided)
 * Returns the following:
 
 list of webpages with most page views ordered from most pages views to less page views e.g.:
@@ -21,7 +21,7 @@ list of webpages with most page views ordered from most pages views to less page
 ## Usage
 Install the latest version of Ruby. Then in the command line `cd` to the directory and run:
 ```
-ruby -r "./log_view.rb" -e "LogView.print path/to/file"
+ruby -r "./log_view.rb" -e "LogView.print 'path/to/file'"
 ```
 
 ## Tests
