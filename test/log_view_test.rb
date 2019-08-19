@@ -25,27 +25,46 @@ class LogViewTest < Minitest::Test
     logview = LogView.new('test.log')
     assert_equal logview.visit_results, [["/help_page/1", 5], ["/home", 3], ["/contact", 2], ["/about/2", 1], ["/index", 1], ["/about", 1]]
   end
+  
+  def unique_results
+    logview = LogView.new('test.log')
+    assert_equal logview.visit_results, [["/help_page/1", 5], ["/home", 3], ["/contact", 2], ["/about/2", 1], ["/index", 1], ["/about", 1]]
+  end
 
   def test_instance_print
     logview = LogView.new('test.log')
-    assert_equal [
-      "/help_page/1 has been visited 5 times",
-      "/home has been visited 3 times",
-      "/contact has been visited 2 times",
-      "/about/2 has been visited 1 time",
-      "/index has been visited 1 time",
-      "/about has been visited 1 time"
-    ], logview.print
+    assert_equal(
+      logview.print,
+      [expected_non_unique_results, expected_unique_results],
+    )
   end
 
   def test_class_print
-    assert_equal [
+    assert_equal(
+      LogView.print('test.log'),
+      [expected_non_unique_results, expected_unique_results],
+    )
+  end
+
+  def expected_non_unique_results
+    [
       "/help_page/1 has been visited 5 times",
       "/home has been visited 3 times",
       "/contact has been visited 2 times",
       "/about/2 has been visited 1 time",
       "/index has been visited 1 time",
-      "/about has been visited 1 time"
-    ], LogView.print('test.log')
+      "/about has been visited 1 time",
+    ]
+  end
+
+  def expected_unique_results
+    [
+      "/help_page/1 has had 5 unique visits",
+      "/home has had 3 unique visits",
+      "/contact has had 1 unique visit",
+      "/about/2 has had 1 unique visit",
+      "/index has had 1 unique visit",
+      "/about has had 1 unique visit",
+    ]
   end
 end

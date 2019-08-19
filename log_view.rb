@@ -18,10 +18,21 @@ class LogView
          .sort { |a, b| b[1] <=> a[1] }
   end
 
+  def unique_results
+    lines.uniq.map { |l| l.match(PAGE_REGEX).to_s }
+              .group_by(&:itself)
+              .map { |k, v| [k, v.size] }
+              .sort { |a, b| b[1] <=> a[1] }
+  end
+
   def print
-    visit_results.map do |visit|
+    res1 = visit_results.map do |visit|
       p "#{visit[0]} has been visited #{visit[1]} #{visit[1] > 1 ? 'times' : 'time'}"
     end
+    res2 = unique_results.map do |visit|
+      p "#{visit[0]} has had #{visit[1]} unique #{visit[1] > 1 ? 'visits' : 'visit'}"
+    end
+    [res1, res2]
   end
 
   def self.print(path_to_file)
