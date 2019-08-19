@@ -23,48 +23,45 @@ class LogViewTest < Minitest::Test
   
   def test_visit_results
     logview = LogView.new('test.log')
-    assert_equal logview.visit_results, [["/help_page/1", 5], ["/home", 3], ["/contact", 2], ["/about/2", 1], ["/index", 1], ["/about", 1]]
+    assert_equal logview.visit_results, [{page: "/help_page/1", visits: 5}, {page: "/home", visits: 3}, {page: "/contact", visits: 2}, {page: "/about/2", visits: 1}, {page: "/index", visits: 1}, {page: "/about", visits: 1}]
   end
   
-  def unique_results
+  def test_unique_results
     logview = LogView.new('test.log')
-    assert_equal logview.visit_results, [["/help_page/1", 5], ["/home", 3], ["/contact", 2], ["/about/2", 1], ["/index", 1], ["/about", 1]]
+    assert_equal logview.visit_results, [{page: "/help_page/1", visits: 5}, {page: "/home", visits: 3}, {page: "/contact", visits: 2}, {page: "/about/2", visits: 1}, {page: "/index", visits: 1}, {page: "/about", visits: 1}]
   end
 
   def test_instance_print
     logview = LogView.new('test.log')
-    assert_equal(
-      logview.print,
-      [expected_non_unique_results, expected_unique_results],
-    )
+    assert_output(expected_output) { logview.print }
   end
 
   def test_class_print
-    assert_equal(
-      LogView.print('test.log'),
-      [expected_non_unique_results, expected_unique_results],
-    )
+    assert_output(expected_output) { LogView.print('test.log') }
   end
 
-  def expected_non_unique_results
-    [
-      "/help_page/1 has been visited 5 times",
-      "/home has been visited 3 times",
-      "/contact has been visited 2 times",
-      "/about/2 has been visited 1 time",
-      "/index has been visited 1 time",
-      "/about has been visited 1 time",
-    ]
-  end
-
-  def expected_unique_results
-    [
-      "/help_page/1 has had 5 unique visits",
-      "/home has had 3 unique visits",
-      "/contact has had 1 unique visit",
-      "/about/2 has had 1 unique visit",
-      "/index has had 1 unique visit",
-      "/about has had 1 unique visit",
-    ]
+  def expected_output
+    <<~HEREDOC
+    +--------------+----------+
+    | Page         | Visits   |
+    +--------------+----------+
+    | /help_page/1 | 5        |
+    | /home        | 3        |
+    | /contact     | 2        |
+    | /about/2     | 1        |
+    | /index       | 1        |
+    | /about       | 1        |
+    +--------------+----------+
+    +--------------+---------------+
+    | Page         | Unique Visits |
+    +--------------+---------------+
+    | /help_page/1 | 5             |
+    | /home        | 3             |
+    | /contact     | 1             |
+    | /about/2     | 1             |
+    | /index       | 1             |
+    | /about       | 1             |
+    +--------------+---------------+
+    HEREDOC
   end
 end

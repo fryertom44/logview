@@ -1,3 +1,4 @@
+require './print_table'
 
 class LogView
   PAGE_REGEX = /^\S*/
@@ -14,25 +15,20 @@ class LogView
 
   def visit_results
     pages.group_by(&:itself)
-         .map { |k, v| [k, v.size] }
-         .sort { |a, b| b[1] <=> a[1] }
+         .map { |k, v| { page: k, visits: v.size } }
+         .sort { |a, b| b[:visits] <=> a[:visits] }
   end
 
   def unique_results
     lines.uniq.map { |l| l.match(PAGE_REGEX).to_s }
               .group_by(&:itself)
-              .map { |k, v| [k, v.size] }
-              .sort { |a, b| b[1] <=> a[1] }
+              .map { |k, v| { page: k, visits: v.size } }
+              .sort { |a, b| b[:visits] <=> a[:visits] }
   end
 
   def print
-    res1 = visit_results.map do |visit|
-      p "#{visit[0]} has been visited #{visit[1]} #{visit[1] > 1 ? 'times' : 'time'}"
-    end
-    res2 = unique_results.map do |visit|
-      p "#{visit[0]} has had #{visit[1]} unique #{visit[1] > 1 ? 'visits' : 'visit'}"
-    end
-    [res1, res2]
+    PrintTable.new(visit_results, {page: 'Page', visits: "Visits"}).call
+    PrintTable.new(unique_results, {page: 'Page', visits: "Unique Visits"}).call
   end
 
   def self.print(path_to_file)
