@@ -21,7 +21,7 @@ list of webpages with most page views ordered from most pages views to less page
 ## Usage
 Install the latest version of Ruby. Then in the command line `cd` to the directory and run:
 ```
-ruby -r "./log_view.rb" -e "LogView.print 'path/to/file'"
+ruby log_view.rb path/to/file
 ```
 
 ## Tests

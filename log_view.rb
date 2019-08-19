@@ -42,3 +42,9 @@ class LogView
     end
   end
 end
+
+# run via command line (NOT in tests)
+if __FILE__ == $0
+  logview = LogView.new(*ARGV[0])
+  logview.print
+end
