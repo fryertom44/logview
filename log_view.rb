@@ -1,4 +1,4 @@
-require './print_table'
+require_relative './print_table'
 
 class LogView
   PAGE_REGEX = /^\S*/
@@ -7,7 +7,7 @@ class LogView
   attr_reader :lines, :pages, :addresses
 
   def initialize(path)
-    raise ArgumentError unless File.exists?( path )
+    raise ArgumentError.new("Log File '#{path}'' does not exist") unless File.exists?( path )
 
     @path = path
     parse_file
@@ -52,6 +52,10 @@ end
 
 # run via command line (NOT in tests)
 if __FILE__ == $0
-  logview = LogView.new(*ARGV[0])
-  logview.print
+  begin
+    logview = LogView.new(*ARGV[0])
+    logview.print
+  rescue ArgumentError => e
+    print "#{e}\n"
+  end
 end
