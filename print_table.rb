@@ -1,16 +1,9 @@
 class PrintTable
 
-  # Accepts header column labels in the following format:
-  # => { date: "Date", from: "From", subject: "Subject" }
-  #
-  # Accepts data in the following format:
-  # => [{ date: "2019-08-19", from: "Tom", subject: "Test" }]
+  # @param [Array] data column data e.g. [{ date: "2019-08-19", from: "Tom", subject: "Test" }]
+  # @param [Hash] col_labels header column labels e.g. { date: "Date", from: "From", subject: "Subject" }
   #
   def initialize(data = [], col_labels = {})
-    # Create the following data:
-    # => {:date=>    {:label=>"Date",    :width=>10},
-    #     :from=>    {:label=>"From",    :width=>7},
-    #     :subject=> {:label=>"Subject", :width=>22}}
     @data = data
     @columns = col_labels.each_with_object({}) do |(col,label),h|
       h[col] = {
