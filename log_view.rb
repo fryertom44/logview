@@ -1,9 +1,6 @@
 require_relative './print_table'
 
 class LogView
-  PAGE_REGEX = /^\S*/
-  IP_REGEX = /\S*$/
-
   attr_reader :lines, :pages, :addresses
 
   def initialize(path)
@@ -51,9 +48,10 @@ class LogView
     @addresses = []
 
     IO.foreach(@path, chomp: true) do |l|
+      page, address = l.split
       @lines << l
-      @pages << l.match(PAGE_REGEX).to_s
-      @addresses << l.match(IP_REGEX).to_s
+      @pages << page
+      @addresses << address
     end
   end
 end

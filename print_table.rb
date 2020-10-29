@@ -5,7 +5,7 @@ class PrintTable
   #
   def initialize(data = [], col_labels = {})
     @data = data
-    @columns = col_labels.each_with_object({}) do |(col,label),h|
+    @columns = col_labels.each_with_object({}) do |(col,label), h|
       h[col] = {
         label: label,
         width: [data.map { |g| g[col].size }.max, label.size].max
@@ -24,11 +24,11 @@ class PrintTable
   private
 
   def write_header
-    puts "| #{ @columns.map { |_,g| g[:label].ljust(g[:width]) }.join(' | ') } |"
+    puts "| #{ @columns.map { | _k, v| v[:label].ljust(v[:width]) }.join(' | ') } |"
   end
 
   def write_divider
-    puts "+-#{ @columns.map { |_,g| "-"*g[:width] }.join("-+-") }-+"
+    puts "+-#{ @columns.map { | _k, v| "-"*v[:width] }.join("-+-") }-+"
   end
 
   def write_line(h)

@@ -38,7 +38,7 @@ ruby log_view.rb path/to/file
 ```
 
 ## Tests
-To run the tests, `cd` to the `tests` directory and run:
+To run the tests, `cd` to the `test` directory and run:
 ```
 ruby log_view_test.rb
 ```
