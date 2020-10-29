@@ -31,7 +31,7 @@ class LogViewTest < Minitest::Test
     assert_equal logview.visit_results, [{page: "/help_page/1", visits: 5}, {page: "/home", visits: 3}, {page: "/contact", visits: 2}, {page: "/about/2", visits: 1}, {page: "/index", visits: 1}, {page: "/about", visits: 1}]
   end
 
-  def test_instance_print
+  def test_average_results
     logview = LogView.new('test.log')
     assert_output(expected_output) { logview.print }
   end
@@ -62,6 +62,31 @@ class LogViewTest < Minitest::Test
     | /index       | 1             |
     | /about       | 1             |
     +--------------+---------------+
+    +--------------+----------------+
+    | Page         | Average Visits |
+    +--------------+----------------+
+    | /help_page/1 | 1              |
+    | /home        | 1              |
+    | /contact     | 2              |
+    | /about/2     | 1              |
+    | /index       | 1              |
+    | /about       | 1              |
+    +--------------+----------------+
+    HEREDOC
+  end
+
+  def expected_average_output
+    <<~HEREDOC
+    +--------------+------------------+
+    | Page         | Average Visits   |
+    +--------------+------------------+
+    | /help_page/1 | 5                |
+    | /home        | 3                |
+    | /contact     | 2                |
+    | /about/2     | 1                |
+    | /index       | 1                |
+    | /about       | 1                |
+    +--------------+------------------+
     HEREDOC
   end
 end

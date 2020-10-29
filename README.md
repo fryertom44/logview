@@ -5,6 +5,7 @@ A script for reading a webserver log and outputting the results, sorted by most 
 * Receives a log as argument (webserver.log is provided)
 * returns list of webpages with most page views ordered from most pages views to less page views e.g./home 90 visits /index 80 visits etc...
 * also returns list of webpages with most unique page views (also ordered as above)
+* average page views = total page / unique page views for each page
 
 ## Example output:
 ```

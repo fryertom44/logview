@@ -20,15 +20,23 @@ class LogView
   end
 
   def unique_results
-    lines.uniq.map { |l| l.match(PAGE_REGEX).to_s }
+    lines.uniq.map { |l| l.split.first }
               .group_by(&:itself)
               .map { |k, v| { page: k, visits: v.size } }
               .sort { |a, b| b[:visits] <=> a[:visits] }
   end
 
+  def average_results
+    visit_results.map do |result|
+      unique_result = unique_results.detect { |ur| ur[:page] == result[:page] }
+      { page: result[:page], visits: result[:visits] / unique_result[:visits] }
+    end
+  end
+
   def print
     PrintTable.new(visit_results, {page: 'Page', visits: "Visits"}).call
     PrintTable.new(unique_results, {page: 'Page', visits: "Unique Visits"}).call
+    PrintTable.new(average_results, {page: 'Page', visits: "Average Visits"}).call
   end
 
   def self.print(path_to_file)
